@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+       xmlns:c="http://www.springframework.org/schema/c" 
+       xmlns:cache="http://www.springframework.org/schema/cache" 
+       xmlns:context="http://www.springframework.org/schema/context" 
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+       xmlns:jee="http://www.springframework.org/schema/jee" 
+       xmlns:lang="http://www.springframework.org/schema/lang" 
+       xmlns:mvc="http://www.springframework.org/schema/mvc" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:task="http://www.springframework.org/schema/task" 
+       xmlns:tx="http://www.springframework.org/schema/tx" 
+       xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<context:spring-configured />
+	<!-- 定义控制器注解扫描包路径，控制器注解为 @Controller -->
+	<context:component-scan base-package="com.manager.controller.**" />
+	<context:component-scan base-package="com.manager.aop.log.**" />
+
+     <!-- MappingJacksonHttpMessageConverter 会将对象转换为 JSON 输出 @RespondBody -->
+	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+				<value>text/json;charset=UTF-8</value>  
+                <value>application/json;charset=UTF-8</value>  
+                <value>application/text;charset=UTF-8</value>
+                <value>text/html;charset=UTF-8</value>  
+                <value>text/plain;charset=UTF-8</value> 
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 手动的注解映射的支持-->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJacksonHttpMessageConverter" /><!-- json转换器 -->
+			</list>
+		</property>
+	</bean>
+	
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->  
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+        <property name="defaultEncoding" value="UTF-8"/>  
+        <!-- 指定所上传文件的总大小不能超过500M(500*1024*1024)。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->  
+    	<property name="maxUploadSize" value="524288000"/> 
+    </bean>
+
+   <!-- 针对controller的spring aop配置，如果是非controller的类，则要写在spring的配置文件里 --> 
+   <!-- 基于@AspectJ切面的schema驱动器，使用了该方法后可以将上面的自动代理创建器AnnotationAwareAspectJAutoProxyCreator从配置中去除 -->  
+   
+   <aop:aspectj-autoproxy /><!-- 启动对@AspectJ注解的支持 ??? -->
+   <aop:aspectj-autoproxy proxy-target-class="true" /> <!-- ??? 通知spring使用cglib而不是jdk的来生成代理方法 AOP可以拦截到Controller -->
+   
+   <mvc:resources location="/images/" mapping="/images/**"/>
+   <mvc:resources location="/js/" mapping="/js/**"/>
+   <mvc:resources location="/css/" mapping="/css/**"/>
+	
+	<!-- 控制器异常处理 ??? -->
+    <bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" />
+	
+	<mvc:annotation-driven >
+		<mvc:message-converters register-defaults="true">  
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">  
+                <constructor-arg value="UTF-8"/>  
+            </bean>  
+        </mvc:message-converters> 
+	</mvc:annotation-driven> 
+	
+</beans>
