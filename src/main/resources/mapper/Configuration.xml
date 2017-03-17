@@ -9,7 +9,7 @@
     </settings> 
     
     <typeAliases>
-        <typeAlias type="com.kingdee.finance.fixin.easyui.Page" alias="page" /> <!-- 分页对象的别名 -->
+        <typeAlias type="com.server.api.easyui.Page" alias="page" /> <!-- 分页对象的别名 -->
     </typeAliases>
     
     <plugins>  
