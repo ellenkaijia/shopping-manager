@@ -17,7 +17,7 @@
 	</bean>
     
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.kingdee.finance.fixin.dao.**" />
+        <property name="basePackage" value="com.manager.dao.**" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
     
@@ -44,7 +44,7 @@
 			<property name="driverClassName" value="com.mysql.jdbc.Driver" />  
 	        <property name="url" value="jdbc:mysql://127.0.0.1:3306/finance_p2p_ms" />  
 	        <property name="username" value="root" />  
-	        <property name="password" value="kingdee" />
+	        <property name="password" value="zkj940304" />
 		</bean>
 	</beans>
 	<beans profile="development,development02,test,test02,uat,uattask,run,runtask">
