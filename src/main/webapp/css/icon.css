@@ -1,0 +1,69 @@
+.icon-myedit{
+	background:url('icons/edit.png') no-repeat;
+}
+.icon-mylist{
+	background:url('icons/list.png') no-repeat;
+}
+.icon-mydelete{
+	background:url('icons/delete.png') no-repeat;
+}
+.icon-myupload{
+	background:url('icons/upload.png') no-repeat;
+}
+.icon-down{
+	background:url('icons/down.png') no-repeat;
+}
+.icon-myupload12{
+    background:url('../images/easyui_icons/upload12.png') no-repeat;
+}
+.icon-down16{
+    background:url('../images/easyui_icons/down.16.png') no-repeat;
+}
+.icon-down14{
+    background:url('../images/easyui_icons/down.14.png') no-repeat;
+}
+.icon-down12{
+    background:url('../images/easyui_icons/down.12.png') no-repeat;
+}
+.icon-myhome{
+	background:url('icons/home.png') no-repeat;
+}
+.icon-myfolder{
+	background:url('icons/folder.png') no-repeat;
+}
+.icon-mysave{
+	background:url('icons/save.png') no-repeat;
+}
+.icon-myprivilege{
+	background:url('icons/privilege.png') no-repeat;
+}
+.icon-myuser{
+	background:url('icons/user.png') no-repeat;
+}
+.icon-myusers{
+	background:url('icons/users.png') no-repeat;
+}
+.icon-myman{
+	background:url('icons/man.png') no-repeat;
+}
+.icon-mywoman{
+	background:url('icons/woman.png') no-repeat;
+}
+.icon-mywindow{
+	background:url('icons/window.png') no-repeat;
+}
+.icon-myapp{
+	background:url('icons/app.png') no-repeat;
+}
+.icon-mysetting{
+	background:url('icons/setting.png') no-repeat;
+}
+.icon-myconfig{
+	background:url('icons/config.png') no-repeat;
+}
+.icon-mycomputer{
+	background:url('icons/computer.png') no-repeat;
+}
+.icon-mybag{
+	background:url('icons/bag.png') no-repeat;
+}

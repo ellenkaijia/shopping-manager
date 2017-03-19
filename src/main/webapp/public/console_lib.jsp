@@ -1,0 +1,68 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<c:set var="ctx" value="${pageContext.request.contextPath}" scope="session"/>
+<%
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+%>
+<meta http-equiv="Pragma" content="no-cache" />   
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="shortcut icon" href="${ctx}/images/favicon.ico" type="image/x-icon"/>
+<link rel="bookmark" href="${ctx}/images/favicon.ico" type="image/x-icon"/>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta name="keywords" content="随手记,网上记账,网上记帐,网上账本,手机记账,预算控制,账客理财,账本,账客,帐客,网络记账,在线记账,在线记账网,网络记账软件,在线账本,网络账本,记账网站,免费在线记账,在线记账网站,理财记账表格,家庭理财,个人理财"/>
+<meta name="description" content="随手网是一个移动互联理财平台。它主要为您提供：个人理财产品——随手记相关的iphone，android客户端以及记账网站。让您随时随地记账，查账。同时可以帮您分析开销的走向和比例，通过预算功能还可以有效的减少乱花钱的习惯！" />
+<meta http-equiv="description" content="sdj jsp">
+
+<link rel="stylesheet" type="text/css" href="<%=basePath%>/js/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="<%=basePath%>/js/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="<%=basePath%>/css/common.css" />
+<link rel="stylesheet" type="text/css" href="<%=basePath%>/css/table.css" />
+<link rel="stylesheet" type="text/css" href="<%=basePath%>/css/easyui_icon.css" />
+
+<!-- 客户端机器可以访问外网时jquery使用百度cdn资源 -->
+<!-- <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script> -->
+
+<!-- 客户端机器不能访问外网则使用工程内的jquery -->
+<script src="${ctx}/js/jquery-2.1.4.min.js"></script>
+
+<!-- easyui使用1.4.3，支持多重验证。 -->
+<script type="text/javascript" src="<%=basePath%>/js/easyui/jquery.easyui.min.js?${version}" charset="utf-8"></script>
+<script type="text/javascript" src="<%=basePath%>/js/easyui/locale/easyui-lang-zh_CN.js?${version}" charset="utf-8"></script>
+<script type="text/javascript" src="<%=basePath%>/js/easyui_support.js?${version}" charset="utf-8"></script>
+<script type="text/javascript" src="<%=basePath%>/js/common.js?${version}" charset="utf-8"></script>
+
+<script type="text/javascript">
+// 创建一个tab
+function addTab(title,url,icon){
+    if($('#tabs').tabs('exists',title)){
+        $('#tabs').tabs('close',title);//已经存在，先删除
+    }
+    $('#tabs').tabs('add',{
+        title:title,
+        content:createFrame(url),
+        closable:true,
+        icon:icon
+    });
+}
+
+// tab的内容是一个iframe
+function createFrame(url){
+    var frameHtml = '';
+    if(url.indexOf('http') <= -1){
+        url = "${ctx}" + url;
+    }
+    frameHtml = '<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+    return frameHtml;
+}
+
+// 关闭当前tab
+function closeCurrentTab(){  
+    var tab=$('#tabs').tabs('getSelected'); // 获取当前选中tabs  
+    var index = $('#tabs').tabs('getTabIndex',tab); // 获取当前选中tabs的index  
+    $('#tabs').tabs('close',index); // 关闭对应index的tabs  
+}
+</script>
