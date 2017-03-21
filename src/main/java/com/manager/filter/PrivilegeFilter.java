@@ -26,7 +26,7 @@ import com.server.api.util.StringTools;
 /**
  * 权限过滤器，主要用于页面访问的权限控制
  * 
- * @author admin
+ * @author zkj
  */
 public class PrivilegeFilter implements Filter{
 
@@ -71,13 +71,15 @@ public class PrivilegeFilter implements Filter{
 	public PrivilegeFilter(){
 		super();
 	}
-
+	
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,FilterChain filterChain) throws IOException, ServletException{
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse) response; 
 		HttpSession session = req.getSession(false);
 		
 		String projectRootUrl = req.getContextPath();
+		//没有权限访问的提示页面
 		String noPrivilegePageUrl = projectRootUrl + noPrivilegePage;
 		
 		//访问目标url
@@ -165,8 +167,9 @@ public class PrivilegeFilter implements Filter{
         }
         return "";
     }
-	
-	public void init(FilterConfig filterConfig) throws ServletException{
+    
+    @Override
+	public void init(FilterConfig filterConfig) throws ServletException {
 	    this.rightConfig = filterConfig.getInitParameter("rightConfig");//rightConfig
 	    Properties p = new Properties();
         try {
@@ -188,6 +191,18 @@ public class PrivilegeFilter implements Filter{
 //		System.out.println(str.contains("/ftpFile/handleFileInfo"));
 		String uri = "/sscf/dddController/tetes1?ddd=45525885";
 		System.out.println(uri.substring(0, uri.indexOf("?")));
+		
+		 StringBuilder uri1 = new StringBuilder(uri);
+         if(uri1!=null && uri1.length()>0){
+             uri1.delete(0, 5);
+             if(uri1.indexOf("?")>0){
+                 uri1.delete(uri.indexOf("?"), uri.length());
+             }
+             if(uri1.indexOf(";")>0){
+                 uri1.delete(uri.indexOf(";"), uri.length());
+             }
+         }
+         System.out.println(uri1.toString());
 	}
 
 }

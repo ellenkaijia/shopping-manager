@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manager.dao.SysResourceDao" >
+  <resultMap id="BaseResultMap" type="com.manager.model.admin.SysResource" >
+    <id column="RES_ID" property="resId" jdbcType="DECIMAL" />
+    <result column="RES_TYPE" property="resType" jdbcType="DECIMAL" />
+    <result column="RES_NAME" property="resName" jdbcType="VARCHAR" />
+    <result column="RES_PARENT_ID" property="resParentId" jdbcType="DECIMAL" />
+    <result column="RES_ICON" property="resIcon" jdbcType="VARCHAR" />
+    <result column="RES_URL" property="resUrl" jdbcType="VARCHAR" />
+    <result column="RES_SEQ" property="resSeq" jdbcType="DECIMAL" />
+    <result column="RES_STATUS" property="resStatus" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RES_ID, RES_TYPE, RES_NAME, RES_PARENT_ID, RES_ICON, RES_URL, RES_SEQ, RES_STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_RESOURCE
+    where RES_ID = #{resId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from SYS_RESOURCE
+    where RES_ID = #{resId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.manager.model.admin.SysResource" useGeneratedKeys="true" keyProperty="resId" >
+    insert into SYS_RESOURCE (RES_ID, RES_TYPE, RES_NAME, 
+      RES_PARENT_ID, RES_ICON, RES_URL, 
+      RES_SEQ, RES_STATUS)
+    values (#{resId,jdbcType=DECIMAL}, #{resType,jdbcType=DECIMAL}, #{resName,jdbcType=VARCHAR}, 
+      #{resParentId,jdbcType=DECIMAL}, #{resIcon,jdbcType=VARCHAR}, #{resUrl,jdbcType=VARCHAR}, 
+      #{resSeq,jdbcType=DECIMAL}, #{resStatus,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.manager.model.admin.SysResource" useGeneratedKeys="true" keyProperty="resId" >
+    insert into SYS_RESOURCE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="resId != null" >
+        RES_ID,
+      </if>
+      <if test="resType != null" >
+        RES_TYPE,
+      </if>
+      <if test="resName != null" >
+        RES_NAME,
+      </if>
+      <if test="resParentId != null" >
+        RES_PARENT_ID,
+      </if>
+      <if test="resIcon != null" >
+        RES_ICON,
+      </if>
+      <if test="resUrl != null" >
+        RES_URL,
+      </if>
+      <if test="resSeq != null" >
+        RES_SEQ,
+      </if>
+      <if test="resStatus != null" >
+        RES_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="resId != null" >
+        #{resId,jdbcType=DECIMAL},
+      </if>
+      <if test="resType != null" >
+        #{resType,jdbcType=DECIMAL},
+      </if>
+      <if test="resName != null" >
+        #{resName,jdbcType=VARCHAR},
+      </if>
+      <if test="resParentId != null" >
+        #{resParentId,jdbcType=DECIMAL},
+      </if>
+      <if test="resIcon != null" >
+        #{resIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="resUrl != null" >
+        #{resUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="resSeq != null" >
+        #{resSeq,jdbcType=DECIMAL},
+      </if>
+      <if test="resStatus != null" >
+        #{resStatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manager.model.admin.SysResource" >
+    update SYS_RESOURCE
+    <set >
+      <if test="resType != null" >
+        RES_TYPE = #{resType,jdbcType=DECIMAL},
+      </if>
+      <if test="resName != null" >
+        RES_NAME = #{resName,jdbcType=VARCHAR},
+      </if>
+      <if test="resParentId != null" >
+        RES_PARENT_ID = #{resParentId,jdbcType=DECIMAL},
+      </if>
+      <if test="resIcon != null" >
+        RES_ICON = #{resIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="resUrl != null" >
+        RES_URL = #{resUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="resSeq != null" >
+        RES_SEQ = #{resSeq,jdbcType=DECIMAL},
+      </if>
+      <if test="resStatus != null" >
+        RES_STATUS = #{resStatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where RES_ID = #{resId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manager.model.admin.SysResource" >
+    update SYS_RESOURCE
+    set RES_TYPE = #{resType,jdbcType=DECIMAL},
+      RES_NAME = #{resName,jdbcType=VARCHAR},
+      RES_PARENT_ID = #{resParentId,jdbcType=DECIMAL},
+      RES_ICON = #{resIcon,jdbcType=VARCHAR},
+      RES_URL = #{resUrl,jdbcType=VARCHAR},
+      RES_SEQ = #{resSeq,jdbcType=DECIMAL},
+      RES_STATUS = #{resStatus,jdbcType=DECIMAL}
+    where RES_ID = #{resId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="getRessByCondi" resultMap="BaseResultMap" >
+  	select distinct r.RES_ID, 
+  	       r.RES_TYPE, 
+  	       r.RES_NAME, 
+  	       r.RES_PARENT_ID, 
+  	       r.RES_ICON, 
+  	       r.RES_URL, 
+  	       r.RES_SEQ, 
+  	       r.RES_STATUS
+    from sys_resource r
+    left join sys_role_resource rr on r.res_id = rr.res_id
+    left join sys_user_role ur on rr.role_id = ur.role_id
+    where 1=1 
+    <if test="roleId!=null">and rr.role_id = #{roleId}</if>
+    <if test="userId!=null">and ur.user_id = #{userId}</if>
+    <if test="resType!=null">and r.RES_TYPE = #{resType}</if>
+    <if test="resStatus!=null">and r.RES_STATUS = #{resStatus}</if>
+    <if test="resParentId!=null">and r.RES_PARENT_ID = #{resParentId}</if>
+    order by r.res_parent_id, r.RES_SEQ , r.res_id
+  </select>
+  
+  <select id="resParentIdCombotree" resultMap="BaseResultMap" >
+  	select distinct r.RES_ID, 
+  	       r.RES_TYPE, 
+  	       r.RES_NAME, 
+  	       r.RES_PARENT_ID, 
+  	       r.RES_ICON, 
+  	       r.RES_URL, 
+  	       r.RES_SEQ, 
+  	       r.RES_STATUS
+    from sys_resource r
+    where r.RES_STATUS = 1 
+      and (r.RES_TYPE = 1 or lower(r.RES_URl) like concat('%.jsp%'))
+    order by r.res_parent_id, r.RES_SEQ , r.res_id desc
+  </select>
+  
+  <select id="getParenResIds" parameterType="java.util.Collection" resultType="java.lang.Long" >
+    select distinct f.RES_PARENT_ID 
+    from sys_resource f
+    where f.RES_PARENT_ID is not null 
+      and f.RES_ID in 
+      <foreach collection="collection" index="index" item="item" open="(" close=")" separator=","> #{item} </foreach>
+  </select>
+  
+  <delete id="deleteByPrimaryKeyBatch" parameterType="java.util.Collection" >
+    delete from sys_resource
+    where RES_ID in 
+    <foreach collection="collection" index="index" item="item" open="(" close=")" separator=","> #{item} </foreach>
+  </delete>
+  
+  <select id="getFirstRess" resultMap="BaseResultMap" >
+    select distinct r.RES_ID, 
+           r.RES_TYPE, 
+           r.RES_NAME, 
+           r.RES_PARENT_ID, 
+           r.RES_ICON, 
+           r.RES_URL, 
+           r.RES_SEQ, 
+           r.RES_STATUS
+    from sys_resource r
+    where r.RES_TYPE = 1
+      and ifnull(r.RES_PARENT_ID,0) = 0
+    order by r.res_parent_id, r.RES_SEQ , r.res_id desc
+  </select>
+  
+  <select id="getByResUrl" resultType="java.lang.Long" >
+    select distinct res_id 
+    from sys_resource
+    where RES_STATUS = 1
+      and res_url = #{url} 
+  </select>
+  
+  <select id="getParenMenuIds" parameterType="java.util.Collection" resultType="java.lang.Long" >
+    select distinct RES_PARENT_ID 
+    from sys_resource
+    where RES_PARENT_ID > 0 
+      and RES_STATUS = 1
+      and RES_ID in 
+      <foreach collection="collection" index="index" item="item" open="(" close=")" separator=","> #{item} </foreach>
+  </select>
+  
+  <delete id="deleteAll">
+    delete from SYS_RESOURCE
+  </delete>
+  
+</mapper>

@@ -7,6 +7,6 @@
 <title>404</title>
 </head>
 <body>
-你要的东西不存在
+你要的页面不存在
 </body>
 </html>

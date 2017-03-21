@@ -7,14 +7,12 @@
 <meta http-equiv="Pragma" content="no-cache" />   
 <meta http-equiv="Cache-Control" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
-<link rel="shortcut icon" href="${ctx}/images/favicon.ico" type="image/x-icon"/>
-<link rel="bookmark" href="${ctx}/images/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${ctx}/images/logoTitle.ico" type="image/x-icon"/>
+<link rel="bookmark" href="${ctx}/images/logoTitle.ico" type="image/x-icon"/>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<meta name="keywords" content="随手记,网上记账,网上记帐,网上账本,手机记账,预算控制,账客理财,账本,账客,帐客,网络记账,在线记账,在线记账网,网络记账软件,在线账本,网络账本,记账网站,免费在线记账,在线记账网站,理财记账表格,家庭理财,个人理财"/>
-<meta name="description" content="随手网是一个移动互联理财平台。它主要为您提供：个人理财产品——随手记相关的iphone，android客户端以及记账网站。让您随时随地记账，查账。同时可以帮您分析开销的走向和比例，通过预算功能还可以有效的减少乱花钱的习惯！" />
 <meta http-equiv="description" content="sdj jsp">
 
 <link rel="stylesheet" type="text/css" href="<%=basePath%>/js/easyui/themes/default/easyui.css" />
