@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manager.dao.SysUserRoleDao" >
+  <resultMap id="BaseResultMap" type="com.manager.model.admin.SysUserRoleKey" >
+    <id column="ROLE_ID" property="roleId" jdbcType="DECIMAL" />
+    <id column="USER_ID" property="userId" jdbcType="DECIMAL" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.manager.model.admin.SysUserRoleKey" >
+    delete from SYS_USER_ROLE
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+      and USER_ID = #{userId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.manager.model.admin.SysUserRoleKey" >
+    insert into SYS_USER_ROLE (ROLE_ID, USER_ID)
+    values (#{roleId,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.manager.model.admin.SysUserRoleKey" >
+    insert into SYS_USER_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        ROLE_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <delete id="deleteByCondi" >
+    delete from SYS_USER_ROLE
+    where 
+    <if test="roleId!=null and roleId>0">ROLE_ID = #{roleId,jdbcType=DECIMAL}</if>
+    <if test="userId!=null and userId>0">USER_ID = #{userId,jdbcType=DECIMAL}</if>
+  </delete>
+  
+</mapper>

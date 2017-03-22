@@ -180,7 +180,7 @@ function closeTab(menu, type) {
 	<!-- 顶部 -->
     <div region="north" split="true" border="false" style="overflow: hidden; height: 45px;background: #2d3e50;line-height: 40px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
         <span style="font-size:15px;height: 50px;width: 180px;">
-            <img style="height: 45px;width:180px;" src="../images/logo_index_ssj.png"  align="absmiddle" /></span>
+            <img style="height: 45px;width:180px;" src="../images/bg5.png"  align="absmiddle" /></span>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
         <span id="topMenuSpan">
         </span>

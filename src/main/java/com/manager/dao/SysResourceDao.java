@@ -41,15 +41,15 @@ public interface SysResourceDao {
 
 	List<SysResource> resParentIdCombotree();
 
-	List<Long> getParenResIds(List<Long> childIds);
+	List<Long> getParenResIds(@Param("list") List<Long> childIds);
 
-	int deleteByPrimaryKeyBatch(Set<Long> resIds);
+	int deleteByPrimaryKeyBatch(@Param("set") Set<Long> resIds);
 
 	List<SysResource> getFirstRess();
 
 	List<Long> getByResUrl(@Param("url") String url);
 
-	List<Long> getParenMenuIds(List<Long> resIds);
+	List<Long> getParenMenuIds(@Param("list") List<Long> resIds);
 
 	/** 此方法慎用，清除所有资源数据 */
 	void deleteAll();

@@ -69,6 +69,8 @@
    <mvc:resources location="/images/" mapping="/images/**"/>
    <mvc:resources location="/js/" mapping="/js/**"/>
    <mvc:resources location="/css/" mapping="/css/**"/>
+   <mvc:resources location="/admin/" mapping="/admin/**"/>
+   <mvc:resources location="/public/" mapping="/public/**"/>
 	
 	<!-- 控制器异常处理 ??? -->
     <bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" />

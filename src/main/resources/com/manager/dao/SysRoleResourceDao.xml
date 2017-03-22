@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manager.dao.SysRoleResourceDao" >
+  <resultMap id="BaseResultMap" type="com.manager.model.admin.SysRoleResourceKey" >
+    <id column="RES_ID" property="resId" jdbcType="DECIMAL" />
+    <id column="ROLE_ID" property="roleId" jdbcType="DECIMAL" />
+    <id column="res_url" property="resUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.manager.model.admin.SysRoleResourceKey" >
+    delete from SYS_ROLE_RESOURCE
+    where RES_ID = #{resId,jdbcType=DECIMAL}
+      and ROLE_ID = #{roleId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.manager.model.admin.SysRoleResourceKey" >
+    insert into SYS_ROLE_RESOURCE (RES_ID, ROLE_ID)
+    values (#{resId,jdbcType=DECIMAL}, #{roleId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.manager.model.admin.SysRoleResourceKey" >
+    insert into SYS_ROLE_RESOURCE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="resId != null" >
+        RES_ID,
+      </if>
+      <if test="roleId != null" >
+        ROLE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="resId != null" >
+        #{resId,jdbcType=DECIMAL},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <delete id="deleteByCondi">
+  	delete from SYS_ROLE_RESOURCE 
+  	where 
+  	<if test="resId!=null and resId>0">RES_ID = #{resId,jdbcType=DECIMAL}</if>
+  	<if test="roleId!=null and roleId>0">ROLE_ID = #{roleId,jdbcType=DECIMAL}</if>
+  </delete>
+  
+  <insert id="insertBatch" parameterType="java.util.List">
+        insert into SYS_ROLE_RESOURCE ( RES_ID , ROLE_ID )
+        select A.* from(
+            <foreach collection="list" index="index" item="item" separator="UNION"> 
+                select #{item.resId} as res_id, #{item.roleId} as rold_id from dual
+            </foreach>
+        ) A
+  </insert>
+  
+  <delete id="deleteByResIdBatch" parameterType="java.util.Set" >
+    delete from SYS_ROLE_RESOURCE
+    where RES_ID in 
+    <foreach collection="set" index="index" item="item" open="(" close=")" separator=","> #{item} </foreach>
+  </delete>
+  
+  <select id="getRoleRess" resultMap="BaseResultMap">
+    select distinct rr.role_id,
+           r.res_url
+    from sys_role_resource rr
+    left join sys_resource r on rr.res_id = r.res_id
+    where r.res_status = 1
+      and length(trim(ifnull(r.res_url,''))) > 0
+    order by rr.role_id,r.res_url
+  </select>
+  
+  <delete id="deleteAll">
+  	delete from sys_role_resource
+  </delete>
+  
+</mapper>

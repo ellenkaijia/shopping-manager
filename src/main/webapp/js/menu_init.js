@@ -158,7 +158,7 @@ function loginPrompt(){
 	var content = '<p>' + '尊敬的&nbsp;' + $('#usernameInput').val() + '&nbsp;' + $("#realNameInput").val() + '</p></br>' ;
 	content += '您的IP为：' + $('#clientIpInput').val();
 	$.messager.show({  
-        title: '非标后台欢迎您',  
+        title: '电器管理商城欢迎您',  
         msg: content,  
         timeout: 3000,  
         height:150, 

@@ -162,18 +162,18 @@
     order by r.res_parent_id, r.RES_SEQ , r.res_id desc
   </select>
   
-  <select id="getParenResIds" parameterType="java.util.Collection" resultType="java.lang.Long" >
+  <select id="getParenResIds" parameterType="java.util.List" resultType="java.lang.Long" >
     select distinct f.RES_PARENT_ID 
     from sys_resource f
     where f.RES_PARENT_ID is not null 
       and f.RES_ID in 
-      <foreach collection="collection" index="index" item="item" open="(" close=")" separator=","> #{item} </foreach>
+      <foreach collection="list" index="index" item="item" open="(" close=")" separator=","> #{item} </foreach>
   </select>
   
-  <delete id="deleteByPrimaryKeyBatch" parameterType="java.util.Collection" >
+  <delete id="deleteByPrimaryKeyBatch" parameterType="java.util.Set" >
     delete from sys_resource
     where RES_ID in 
-    <foreach collection="collection" index="index" item="item" open="(" close=")" separator=","> #{item} </foreach>
+    <foreach collection="set" index="index" item="item" open="(" close=")" separator=","> #{item} </foreach>
   </delete>
   
   <select id="getFirstRess" resultMap="BaseResultMap" >
@@ -198,13 +198,13 @@
       and res_url = #{url} 
   </select>
   
-  <select id="getParenMenuIds" parameterType="java.util.Collection" resultType="java.lang.Long" >
+  <select id="getParenMenuIds" parameterType="java.util.List" resultType="java.lang.Long" >
     select distinct RES_PARENT_ID 
     from sys_resource
     where RES_PARENT_ID > 0 
       and RES_STATUS = 1
       and RES_ID in 
-      <foreach collection="collection" index="index" item="item" open="(" close=")" separator=","> #{item} </foreach>
+      <foreach collection="list" index="index" item="item" open="(" close=")" separator=","> #{item} </foreach>
   </select>
   
   <delete id="deleteAll">

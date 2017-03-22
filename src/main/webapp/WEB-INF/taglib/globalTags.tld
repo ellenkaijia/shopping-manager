@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<taglib>
+	<tlib-version>1.1.2</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>ssj</short-name>
+	<description>ssj JSP Tag Library.</description>
+	<uri>/hasPermission</uri>
+
+	<tag>
+		<name>hasPermission</name>
+		<tag-class>com.manager.filter.HasPermission</tag-class>
+		<body-content>JSP</body-content>
+		<description>若当前用户具有指定url的权限，则显示按钮，否则隐藏此按钮。</description>
+		<attribute>
+			<name>url</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+</taglib>

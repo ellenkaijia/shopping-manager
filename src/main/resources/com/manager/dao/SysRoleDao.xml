@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manager.dao.SysRoleDao" >
+  <resultMap id="BaseResultMap" type="com.manager.model.admin.SysRole" >
+    <id column="ROLE_ID" property="roleId" jdbcType="DECIMAL" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="ROLE_STATUS" property="roleStatus" jdbcType="DECIMAL" />
+    <result column="userNames" property="userNames" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ROLE_ID, ROLE_NAME, ROLE_STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_ROLE
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from SYS_ROLE
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.manager.model.admin.SysRole" useGeneratedKeys="true" keyProperty="roleId" >
+    insert into SYS_ROLE (ROLE_ID, ROLE_NAME, ROLE_STATUS
+      )
+    values (#{roleId,jdbcType=DECIMAL}, #{roleName,jdbcType=VARCHAR}, #{roleStatus,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.manager.model.admin.SysRole" useGeneratedKeys="true" keyProperty="roleId" >
+    insert into SYS_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        ROLE_ID,
+      </if>
+      <if test="roleName != null" >
+        ROLE_NAME,
+      </if>
+      <if test="roleStatus != null" >
+        ROLE_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleStatus != null" >
+        #{roleStatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manager.model.admin.SysRole" >
+    update SYS_ROLE
+    <set >
+      <if test="roleName != null" >
+        ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleStatus != null" >
+        ROLE_STATUS = #{roleStatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manager.model.admin.SysRole" >
+    update SYS_ROLE
+    set ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      ROLE_STATUS = #{roleStatus,jdbcType=DECIMAL}
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="dataGrid" parameterType="com.server.api.easyui.Page" resultMap="BaseResultMap">
+  	select distinct r.role_id,
+            r.role_name,
+       		r.role_status,
+       		group_concat(concat(u.user_name,' ',u.real_name)) AS userNames
+    from sys_role r
+	left join sys_user_role ur on r.role_id = ur.role_id
+	left join sys_user u on ur.user_id = u.user_id
+	where 1=1
+	<if test="params.roleName!=null and params.roleName!=''">and r.role_name like concat('%',#{params.roleName},'%')</if>
+	<if test="params.roleStatus!=null and params.roleStatus>0">and r.ROLE_STATUS = #{params.roleStatus}</if>
+	group by r.role_id,
+       r.role_name,
+       r.role_status
+	order by r.role_status,r.role_name,r.role_id desc
+  </select>
+  
+  <select id="getAllRole" resultType="java.util.Map">
+  	select r.role_id id,
+           r.role_name name
+    from sys_role r 
+    where 1=1
+    <if test="q!=null and q!=''">and r.role_name like concat('%',#{q},'%')</if>
+    order by r.role_name , r.role_id desc
+  </select>
+  
+</mapper>
