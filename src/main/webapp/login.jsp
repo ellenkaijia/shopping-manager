@@ -6,9 +6,9 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ request.getContextPath();
-//    String[] cookies = com.kingdee.finance.fixin.controller.SysUserController.getUserNameAndPwdFromCookie(request);
-    String userName = "zkj";
-    String userPwd = "zkj";
+    String[] cookies = com.manager.controller.SysUserController.getUserNameAndPwdFromCookie(request);
+    String userName = cookies[0];
+    String userPwd = cookies[1];
 %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

@@ -1,9 +1,13 @@
 package com.manager.service.impl;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -22,6 +26,7 @@ import com.manager.model.admin.SysResource;
 import com.manager.model.admin.SysRoleResourceKey;
 import com.manager.service.ISysResourceService;
 import com.manager.service.ISysRoleService;
+import com.manager.util.ZcRandomUtil;
 
 @Service
 public class SysResourceServiceImpl implements ISysResourceService {
@@ -195,6 +200,41 @@ public class SysResourceServiceImpl implements ISysResourceService {
 			for (SysResource child : parent.getChildList()) {
 				child.setResParentId(parent.getResId());
 				insertMenus(child);
+			}
+		}
+	}
+	
+	public static void main(String args[]) {
+		
+		File file = new File("F:\\neo4j");
+		File exportFile = new File("F:\\neo4j\\export.csv");
+		file.mkdir();
+		FileWriter fileWriter = null;
+		if(!exportFile.exists()) {
+			try {
+				fileWriter = new FileWriter(exportFile, false);
+				exportFile.createNewFile();
+				Random random = new Random();
+				StringBuffer stringBuffer = new StringBuffer();
+				stringBuffer.append("id" + "," + "weight" + "," + "name" + "\r\n");
+				for(int i=1; i<=1000; i++) {
+					stringBuffer.append("" + i + ",");
+					stringBuffer.append("" + random.nextInt(50) + ",");
+					stringBuffer.append("\"" + ZcRandomUtil.generateAllLowerString(8)  + "\"" + "\r\n");
+				}
+				fileWriter.write(stringBuffer.toString());
+				
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					fileWriter.flush();
+					fileWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 			}
 		}
 	}
