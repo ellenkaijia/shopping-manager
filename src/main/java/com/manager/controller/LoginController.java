@@ -16,8 +16,8 @@ public class LoginController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
-/*	@Autowired
-	private LoginMsService loginMsService;*/
+	@Autowired
+	private LoginMsService loginMsService;
 	@Autowired
 	private LoginService loginService;
 	
@@ -25,7 +25,7 @@ public class LoginController {
 	@ResponseBody
     public String login() {
 		logger.info("dsahjdhjaskdhjksahk");
-	//	loginMsService.sayHello();
+		loginMsService.sayHello("zhaokaijia");
 		try {
 			loginService.test();
 		} catch (Exception e) {

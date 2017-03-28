@@ -119,31 +119,6 @@
 			</table>
 		</form>
 	</div>
-
-	<!-- 导入债权对话框 -->
-	<div id="importDialog"
-		 style="width: 450px; height: 300px; display: none" align="center">
-		<form id="importDialogForm" method="post"  enctype="multipart/form-data" >
-			<table cellspacing="1" cellpadding="0" class="tb_searchbar">
-				<tr>
-					<td class="td_title" style="width: 100px;" align="right">合作机构：</td>
-					<td style="width: 250px;"><input name="orgId"
-													 style="width: 200px;" class="easyui-combobox"
-													 data-options="url:'${ctx}/zcDebt/getDebtImportOrgList',editable:false,valueField:'orgId',textField:'orgName',mode:'remote'" />
-					</td>
-				</tr>
-				<tr>
-					<td class="td_title" style="width: 100px;" align="right">选择文件：</td>
-					<td style="width: 250px;"><input
-							name="uploadExcel" class="easyui-filebox" style="width: 200px"
-							data-options="prompt:'请选择excel文件...'"> </td>
-				</tr>
-			</table>
-		</form>
-	</div>
-
-	<jsp:include page="updateDebt.jsp"/>
-
 </div>
 
 <script type="text/javascript">

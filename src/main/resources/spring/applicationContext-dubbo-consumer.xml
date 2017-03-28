@@ -9,5 +9,9 @@
         ">       
     <dubbo:application name="shopping-manager" />      
     <dubbo:registry  protocol="zookeeper"  address="127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183" />         <!-- 生成远程服务代理，可以和本地bean一样使用 -->  
+    <dubbo:protocol name="dubbo" port="${dubbo.local.url.port}" serialization="kryo" />
     <dubbo:reference id="loginMsService" interface="com.mhdq.manager.api.service.LoginMsService" />  
+    <dubbo:reference id="ProductMsService" interface ="com.mhdq.manager.api.service.product.ProductMsService"/>
+    <dubbo:reference id="ProductResMsService" interface ="com.mhdq.manager.api.service.productres.ProductResMsService"/>
+    
 </beans> 

@@ -207,7 +207,7 @@ public class SysResourceServiceImpl implements ISysResourceService {
 	public static void main(String args[]) {
 		
 		File file = new File("F:\\neo4j");
-		File exportFile = new File("F:\\neo4j\\export.csv");
+		File exportFile = new File("F:\\neo4j\\zhaokaijiaR.csv");
 		file.mkdir();
 		FileWriter fileWriter = null;
 		if(!exportFile.exists()) {
@@ -216,11 +216,12 @@ public class SysResourceServiceImpl implements ISysResourceService {
 				exportFile.createNewFile();
 				Random random = new Random();
 				StringBuffer stringBuffer = new StringBuffer();
-				stringBuffer.append("id" + "," + "weight" + "," + "name" + "\r\n");
-				for(int i=1; i<=1000; i++) {
-					stringBuffer.append("" + i + ",");
-					stringBuffer.append("" + random.nextInt(50) + ",");
-					stringBuffer.append("\"" + ZcRandomUtil.generateAllLowerString(8)  + "\"" + "\r\n");
+			//	stringBuffer.append("id" + "," + "weight" + "," + "name" + "\r\n");
+				for(int i=1; i<=10000; i++) {
+					stringBuffer.append("" + (random.nextInt(999) + 1)  + ",");
+					stringBuffer.append("" + (random.nextInt(999) + 1));
+					stringBuffer.append("\r\n");
+			//		stringBuffer.append("\"" + ZcRandomUtil.generateAllLowerString(8)  + "\"" + "\r\n");
 				}
 				fileWriter.write(stringBuffer.toString());
 				
