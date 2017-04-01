@@ -51,17 +51,17 @@
 			   data-options="loadFilter:globalDatagridFilter">
 			<thead>
 			<tr>
-				<th field="prodId" width="80" align="center">产品Id</th>
+				<th field="prodId" width="120" align="center">产品Id</th>
 				<th field="prodName" width="120" align="center">产品名称</th>
-				<th field="codeId" width="70" align="center">产品型号</th>
-				<th field="prodDetail" width="30" align="center">产品详情</th>
-				<th field="prodTypeName" width="130" align="left">所属种类</th>
-				<th field="prodPrize" width="100" align="right">产品价格（元）</th>
-				<th field="prodFreeTime" width="90" align="center">产品保修期（年）</th>
+				<th field="codeId" width="120" align="center">产品型号</th>
+				<th field="prodDetail" width="120" align="center">产品详情</th>
+				<th field="prodTypeName" width="100" align="center">所属种类</th>
+				<th field="prodPrize" width="100" align="center">产品价格（元）</th>
+				<th field="prodFreeTime" width="100" align="center">产品保修期（年）</th>
 				<th field="prodSum" width="80" align="center">产品库存量</th>
 				<th field="prodSellSum" width="80" align="center">产品已售量</th>
 				<th field="createTime" width="100" align="center">上传时间</th>
-				<th field="status" width="100" align="center">状态</th>
+				<th field="statusStr" width="100" align="center">状态</th>
 				<th field="abcdefg" width="200" align="left"
 					formatter="operationTh">操作</th>
 			</tr>
@@ -119,6 +119,8 @@
 			</table>
 		</form>
 	</div>
+	
+	<jsp:include page="updateProduct.jsp"/>
 </div>
 
 <script type="text/javascript">
@@ -152,27 +154,41 @@
     	var tabIcon = "";
     	parent.addTab(tabTitle, "/admin/product/addProduct.jsp", tabIcon);
 	}
+	
+	//产品删除操作
+	function deleteProduct(pid) {
+		commonSubmit("确定要删除此产品？", "${ctx}/product/delete", {
+			'prodId' : pid
+		}, "zcProductDatagrid", null);
+	}
 
+	function releaseProduct(prodid) {
+		commonSubmit("确定要发布此产品？", "${ctx}/product/release", {
+			'prodId' : prodid
+		}, "zcProductDatagrid", null);
+	}
+
+	
 	function operationTh(value, row, index) {
 		var opera = "";
 		//未匹配且未使用的债权 允许删除
-		if (row.isUsed == 0 && row.isMatch == 0) {
-			<global:hasPermission url="/zcDebt/delete">
-			opera += '<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleDebt('
-					+ row.id + ');" >删除</a>&nbsp;';
+		if (row.status == 0) {
+			<global:hasPermission url="/product/release">
+			opera += '<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="releaseProduct('
+				+ "'" + row.prodId + "'" + ');" >发布</a>&nbsp;';
 			</global:hasPermission>
 		} else {
 			opera += "/&nbsp;";
 		}
+		<global:hasPermission url="/product/delete">
+		opera += '<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteProduct('
+			+ "'"+ row.prodId + "'" + ');" >删除</a>&nbsp;';
+		</global:hasPermission>
 		//未匹配且未使用的债权 允许编辑债权
-		if (row.isUsed == 0 && row.isMatch == 0) {
-			<global:hasPermission url="/zcDebt/update">
-			opera += '<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="showUpdateDebt('
+		<global:hasPermission url="/product/update">
+			opera += '<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="showUpdateProduct('
 					+ row.id + ');" >编辑</a>&nbsp;';
-			</global:hasPermission>
-		} else {
-			opera += "/";
-		}
+		</global:hasPermission>
 		return opera;
 	}
 

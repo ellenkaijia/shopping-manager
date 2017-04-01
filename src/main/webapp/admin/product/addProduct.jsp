@@ -21,6 +21,9 @@
 <body>
 	<div id="cc" class="easyui-layout"
 		style="width: 100%; margin-left: auto; margin-right: auto; font-size: 13px;">
+		<c:if test="${not empty message}">
+			<p><span>${message}</span></p>
+		</c:if>
 		<table>
 			<tr>
 				<td>
@@ -99,6 +102,7 @@
 								</tr>
 							</table>
 						</form>
+						
 					</div>
 
 				</td>
@@ -119,10 +123,12 @@
 		var dataDialogForm;
 		var dialogUrl;
 		var dialogMsg;
+		var isValidate = true;
 		$(function() {
 			dataDialogForm = $("#dataDialogForm").form();
 			dialogUrl = "${ctx}/product/createProduct";
 			dialogMsg = "确认新增该产品？";
+			
 		});
 
 		
@@ -145,35 +151,27 @@
 			$.messager.confirm("请确认", dialogMsg, function(flag) {
 				if (flag) {
 					showProgress();
-				/* 	$.ajax({
-						url : dialogUrl,
-						type : 'POST',
-						data : data,
-						cache : false,
-						dataType : 'json',
-						error : function() {
-							closeProgress();
-							$.messager.alert('提示信息', '操作失败！');
-						},
-						success : function(response2) {
-							closeProgress();
-							if (1 == response2.code) {//操作成功
-								alertDelay(response2.message);
-								if (operaType == "edit" || operaType == "add") {
-									setTimeout("parent.closeCurrentTab();", 1500); // 添加、修改产品后关闭当前tab
-								} else {
-									loadAndShowData(pid);
-								}
-							} else {
-								if (response2 != null && response2 != undefined) {
-									$.messager.alert('提示信息', response2.message,
-											'info');
-								}
+					$('#dataDialogForm').form('submit', {
+						onSubmit: function(){
+							var isValid = $(this).form('validate');
+							
+							if (!isValid){
+								$.messager.progress('close');	// hide progress bar while the form is invalid
 							}
-						}
-					}); */
-					dataDialogForm.submit();
-					closeProgress();
+							if(!isValidate) {
+								$.messager.alert('提示','不能重复提交表单，请关闭重新开启');
+								closeProgress();
+							}
+							return isValidate;	// return false will stop the form submission
+						},
+					    success: function(data){
+							var data = eval('(' + data + ')'); // change the JSON string to javascript object
+								$.messager.confirm('提示',data.message + "\n 是否去掉该表单？", function(r){
+									isValidate = false;
+								});
+								closeProgress();
+					    }
+					});
 				}
 			});
 		}

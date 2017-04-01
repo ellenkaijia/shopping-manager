@@ -10,4 +10,11 @@ public interface ProductService {
 	 * @return
 	 */
 	boolean createProductPic(CommonsMultipartFile[] files, String prodId);
+	
+	/**
+	 * 删除照片通过产品的id
+	 * @param prodId
+	 * @return
+	 */
+	boolean deleteProductPic(String prodId);
 }
