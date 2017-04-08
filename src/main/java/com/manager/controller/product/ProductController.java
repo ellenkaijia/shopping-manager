@@ -1,5 +1,7 @@
 package com.manager.controller.product;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.manager.controller.base.BaseController;
 import com.manager.controller.base.ResultInfo;
+import com.manager.product.dto.ProductBandDTO;
 import com.manager.product.dto.ProductDTO;
 import com.manager.service.product.ProductService;
 import com.mhdq.manager.api.service.product.ProductMsService;
@@ -35,28 +38,21 @@ public class ProductController extends BaseController {
 	@ResponseBody
 	public ResultInfo createProduct(@RequestParam("file") CommonsMultipartFile[] files, ProductDTO productDTO) {
 		logger.info("***********正在调用createProduct的Controller**********");
-		ResultInfo resultInfo = new ResultInfo();
 		RpcRespDTO<String> rpcResult = productMsService.createPrpduct(productDTO);
 		if(rpcResult.getCode().equals(RpcCommonConstant.CODE_SUCCESS)) {
 			String prodId = rpcResult.getData();
 			logger.info("prodId:" + prodId);
 			if(productService.createProductPic(files,prodId)) {
 				logger.info("***********保存成功**********");
-				resultInfo.setCode(1);
-				resultInfo.setMessage("保存成功");
-				return resultInfo;
+				return this.success();
 			} else {
 				logger.info("***********保存图片时出错**********");
-				resultInfo.setCode(1);
-				resultInfo.setMessage("保存图片时出错");
-				return resultInfo;
+				return this.fail("保存图片时出错");
 			}
 			
 		} else {
 			logger.info(rpcResult.getMsg());
-			resultInfo.setCode(1);
-			resultInfo.setMessage(rpcResult.getMsg());
-			return resultInfo;
+			return this.fail(rpcResult.getMsg());
 		}
 		
 	}
@@ -70,10 +66,10 @@ public class ProductController extends BaseController {
 	@RequestMapping("/delete")
 	@ResponseBody
 	public ResultInfo productDelete(@RequestParam("prodId") String productId) {
+		boolean result = productService.deleteProductPic(productId);
 		RpcRespDTO<Integer> respDTO = productMsService.deleteProduct(productId);
 		if (RpcCommonConstant.CODE_SUCCESS.equals(respDTO.getCode())) {
 			if(respDTO.getData() == 1) {
-				boolean result = productService.deleteProductPic(productId);
 				if(result) {
 					return this.success();
 				}
@@ -125,5 +121,99 @@ public class ProductController extends BaseController {
 		return productMsService.showProduct(id);
 	}
 	
+	@RequestMapping("/addBand")
+	@ResponseBody
+	public ResultInfo addBand(@RequestParam("file") CommonsMultipartFile file, ProductBandDTO productBandDTO) {
+		RpcRespDTO<String> respDTO = productMsService.addBand(productBandDTO);
+		if (RpcCommonConstant.CODE_SUCCESS.equals(respDTO.getCode())) {
+			String bandId = respDTO.getData();
+			if(bandId == null) {
+				return this.fail("保存失败");
+			}
+			logger.info("bandId:" + bandId);
+			if(productService.createBandPic(file, bandId)) {
+				logger.info("***********保存成功**********");
+				return this.success();
+			} else {
+				return this.fail("保存图片失败");
+			}
+			
+		} else {
+			return this.fail(respDTO.getMsg());
+		}
+	}
+	
+	@RequestMapping("/showBand")
+	@ResponseBody
+	public DataGrid showBand(ProductBandDTO productBandDTO, Page page) {
+		return productMsService.showBand(productBandDTO, page);
+	}
+	
+	
+	@RequestMapping("/getBand")
+	@ResponseBody
+	public List<ProductBandDTO> getProductBandList() {
+		return productMsService.getProductBandList();
+	}
+	
+	@RequestMapping("/gonew")
+	@ResponseBody
+	public ResultInfo gonew(@RequestParam("id") Long id) {
+		RpcRespDTO<Integer> respDTO = productMsService.gonew(id);
+		if(RpcCommonConstant.CODE_SUCCESS.equals(respDTO.getCode())) {
+			if(respDTO.getData() == 1) {
+				return this.success();
+			} else {
+				return this.fail("上新品失败");
+			}
+		} else {
+			return this.fail("上新品服务后台失败");
+		}
+	}
+	
+	@RequestMapping("/cacelgonew")
+	@ResponseBody
+	public ResultInfo cacelgonew(@RequestParam("id") Long id) {
+		RpcRespDTO<Integer> respDTO = productMsService.cacelgonew(id);
+		if(RpcCommonConstant.CODE_SUCCESS.equals(respDTO.getCode())) {
+			if(respDTO.getData() == 1) {
+				return this.success();
+			} else {
+				return this.fail("取消上新品失败");
+			}
+		} else {
+			return this.fail("取消上新品服务后台失败");
+		}
+	}
+	
+	@RequestMapping("/gohot")
+	@ResponseBody
+	public ResultInfo gohot(@RequestParam("id") Long id) {
+		RpcRespDTO<Integer> respDTO = productMsService.gohot(id);
+		if(RpcCommonConstant.CODE_SUCCESS.equals(respDTO.getCode())) {
+			if(respDTO.getData() == 1) {
+				return this.success();
+			} else {
+				return this.fail("上热搜失败");
+			}
+		} else {
+			return this.fail("上热搜服务后台失败");
+		}
+	}
+	
+	@RequestMapping("/cacelgohot")
+	@ResponseBody
+	public ResultInfo cacelgohot(@RequestParam("id") Long id) {
+		RpcRespDTO<Integer> respDTO = productMsService.cacelgohot(id);
+		if(RpcCommonConstant.CODE_SUCCESS.equals(respDTO.getCode())) {
+			if(respDTO.getData() == 1) {
+				return this.success();
+			} else {
+				return this.fail("取消上热搜失败");
+			}
+		} else {
+			return this.fail("取消上热搜服务后台失败");
+		}
+	}
 
 }

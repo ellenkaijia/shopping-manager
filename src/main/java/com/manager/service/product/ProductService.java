@@ -17,4 +17,14 @@ public interface ProductService {
 	 * @return
 	 */
 	boolean deleteProductPic(String prodId);
+	
+	/**
+	 * 存储品牌的图片
+	 * @param file
+	 * @param bandId
+	 * @return
+	 */
+	boolean createBandPic(CommonsMultipartFile file, String bandId);
+	
+	
 }

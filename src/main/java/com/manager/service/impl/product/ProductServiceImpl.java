@@ -126,20 +126,78 @@ public class ProductServiceImpl implements ProductService {
 
 	/**
 	 * 递归删除文件夹
+	 * 
 	 * @param dir
 	 * @return
 	 */
 	private boolean deleteDir(File dir) {
-		if(dir.isDirectory()) {
+		if (dir.isDirectory()) {
 			String[] children = dir.list();
-			for(int i=0; i<children.length; i++) {
-				boolean success = deleteDir(new File(dir,children[i]));
-				if(!success){
+			for (int i = 0; i < children.length; i++) {
+				boolean success = deleteDir(new File(dir, children[i]));
+				if (!success) {
 					return false;
 				}
 			}
 		}
 		return dir.delete();
+	}
+
+	@Override
+	public boolean createBandPic(CommonsMultipartFile file, String bandId) {
+		FileOutputStream fileOutputStream = null;
+		InputStream inputStream = null;
+		File parentFolder = new File(propertiesUtil.getProperties().getProperty("band_file_path"));
+		if (!parentFolder.exists()) { // 创建放图片的目录
+			parentFolder.mkdirs();
+		}
+		List<ProductResDTO> list = new ArrayList<>();
+		int isHave = 0; // 是否有图片传过来
+		logger.info("fileName---------->" + file.getOriginalFilename()); // 输出文件的名字
+		// 对有图片的进行处理
+		if (!file.isEmpty()) {
+			isHave++;
+			String subResId = GenerateCode.generateResIdCode();
+			try {
+
+				// 拿到输出流，同时重命名上传的文件
+				fileOutputStream = new FileOutputStream(
+						parentFolder.getAbsolutePath() + File.separator + subResId + ".jpg");
+				// 拿到上传文件的输入流
+				inputStream = file.getInputStream();
+
+				// 以写字节的方式写文件
+				int b = 0;
+				while ((b = inputStream.read()) != -1) {
+					fileOutputStream.write(b);
+				}
+				ProductResDTO productResDTO = new ProductResDTO();
+				productResDTO.setProdId(bandId);
+				productResDTO.setResId(subResId);
+				productResDTO.setResSeq(isHave + 1);
+				list.add(productResDTO);
+
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				return false;
+			} finally {
+				try {
+					fileOutputStream.flush();
+					fileOutputStream.close();
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		if (list.size() != 0) {
+			RpcRespDTO<Integer> result = productResMsService.createProductRes(list);
+			if (result.getCode().equals(RpcCommonConstant.CODE_SUCCESS)) {
+				return true;
+			}
+		}
+		return true;
 	}
 
 }
