@@ -199,5 +199,62 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return true;
 	}
+	
+	@Override
+	public boolean createSortPic(CommonsMultipartFile file, String bandId) {
+		FileOutputStream fileOutputStream = null;
+		InputStream inputStream = null;
+		File parentFolder = new File(propertiesUtil.getProperties().getProperty("sort_file_path"));
+		if (!parentFolder.exists()) { // 创建放图片的目录
+			parentFolder.mkdirs();
+		}
+		List<ProductResDTO> list = new ArrayList<>();
+		int isHave = 0; // 是否有图片传过来
+		logger.info("fileName---------->" + file.getOriginalFilename()); // 输出文件的名字
+		// 对有图片的进行处理
+		if (!file.isEmpty()) {
+			isHave++;
+			String subResId = GenerateCode.generateResIdCode();
+			try {
+
+				// 拿到输出流，同时重命名上传的文件
+				fileOutputStream = new FileOutputStream(
+						parentFolder.getAbsolutePath() + File.separator + subResId + ".jpg");
+				// 拿到上传文件的输入流
+				inputStream = file.getInputStream();
+
+				// 以写字节的方式写文件
+				int b = 0;
+				while ((b = inputStream.read()) != -1) {
+					fileOutputStream.write(b);
+				}
+				ProductResDTO productResDTO = new ProductResDTO();
+				productResDTO.setProdId(bandId);
+				productResDTO.setResId(subResId);
+				productResDTO.setResSeq(isHave);
+				list.add(productResDTO);
+
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+				return false;
+			} finally {
+				try {
+					fileOutputStream.flush();
+					fileOutputStream.close();
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		if (list.size() != 0) {
+			RpcRespDTO<Integer> result = productResMsService.createProductRes(list);
+			if (result.getCode().equals(RpcCommonConstant.CODE_SUCCESS)) {
+				return true;
+			}
+		}
+		return true;
+	}
 
 }

@@ -55,9 +55,10 @@
 								</tr>
 								<tr>
 									<td class="td_title" width="25%" align="right">种类名称：</td>
-									<td align="left"><input name="prodTypeName"
-										style="width: 45%;" maxLength="80" class="easyui-validatebox"
-										data-options="required:true" /></td>
+									<td style="width: 250px;"><input name="sortId"
+													 style="width: 200px;" class="easyui-combobox"
+													 data-options="url:'${ctx}/product/getSort',editable:false,valueField:'sortId',textField:'sortName',mode:'remote'" />
+									</td>
 								</tr>
 								<tr>
 									<td class="td_title" width="25%" align="right">所属品牌：</td>

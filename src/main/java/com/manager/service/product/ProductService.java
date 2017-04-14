@@ -26,5 +26,7 @@ public interface ProductService {
 	 */
 	boolean createBandPic(CommonsMultipartFile file, String bandId);
 	
+	boolean createSortPic(CommonsMultipartFile file, String bandId);
+	
 	
 }

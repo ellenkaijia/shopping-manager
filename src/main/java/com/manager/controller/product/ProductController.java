@@ -15,6 +15,7 @@ import com.manager.controller.base.BaseController;
 import com.manager.controller.base.ResultInfo;
 import com.manager.product.dto.ProductBandDTO;
 import com.manager.product.dto.ProductDTO;
+import com.manager.product.dto.SortDTO;
 import com.manager.service.product.ProductService;
 import com.mhdq.manager.api.service.product.ProductMsService;
 import com.mhdq.rpc.RpcCommonConstant;
@@ -214,6 +215,40 @@ public class ProductController extends BaseController {
 		} else {
 			return this.fail("取消上热搜服务后台失败");
 		}
+	}
+	
+	@RequestMapping("/addSort")
+	@ResponseBody
+	public ResultInfo addSort(@RequestParam("file") CommonsMultipartFile file, SortDTO sortDTO) {
+		RpcRespDTO<String> respDTO = productMsService.addSort(sortDTO);
+		if (RpcCommonConstant.CODE_SUCCESS.equals(respDTO.getCode())) {
+			String sortId = respDTO.getData();
+			if(sortId == null) {
+				return this.fail("保存失败");
+			}
+			logger.info("sortId:" + sortId);
+			if(productService.createSortPic(file, sortId)) {
+				logger.info("***********保存成功**********");
+				return this.success();
+			} else {
+				return this.fail("保存图片失败");
+			}
+			
+		} else {
+			return this.fail(respDTO.getMsg());
+		}
+	}
+	
+	@RequestMapping("/showSort")
+	@ResponseBody
+	public DataGrid showSort(SortDTO sortDTO, Page page) {
+		return productMsService.showSort(sortDTO, page);
+	}
+	
+	@RequestMapping("/getSort")
+	@ResponseBody
+	public List<SortDTO> getProductSortList() {
+		return productMsService.getProductSortList();
 	}
 
 }
