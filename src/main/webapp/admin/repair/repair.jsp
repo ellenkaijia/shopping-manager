@@ -22,7 +22,7 @@
 						<td style="width: 250px;"><input name="userId"
 							style="width: 200px;" placeholder="用户编号" /></td>
 						<td style="width: 250px;"><input name="repairId"
-							style="width: 200px;" placeholder="维修单浩" /></td>
+							style="width: 200px;" placeholder="维修单号" /></td>
 						<td class="td_title" style="width: 80px;" align="right">状态：</td>
 						<td style="width: 100px;"><select name="status"
 							style="width: 80px;">
