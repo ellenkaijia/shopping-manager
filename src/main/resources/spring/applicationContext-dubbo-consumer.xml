@@ -14,5 +14,7 @@
     <dubbo:reference id="ProductMsService" interface ="com.mhdq.manager.api.service.product.ProductMsService"/>
     <dubbo:reference id="ProductResMsService" interface ="com.mhdq.manager.api.service.productres.ProductResMsService"/>
     <dubbo:reference id="MUserMsService" interface ="com.mhdq.manager.api.service.UserMsService"/>
+    <dubbo:reference id="OrderMsService" interface ="com.mhdq.manager.api.service.OrderMsService"/>
+    <dubbo:reference id="RepairMsService" interface ="com.mhdq.manager.api.service.RepairMsService"/>
     
 </beans> 

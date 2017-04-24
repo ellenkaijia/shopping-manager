@@ -179,5 +179,10 @@ public class SysUserServiceImpl implements ISysUserService {
 			retryCache.put(ip, ipPojo);
 		}
 	}
+	
+	public static void main(String args[]) {
+		String aa = MD5Utils.MD5Encode("123456" + "zhaokaijia");
+		System.out.println(aa);
+	}
 
 }
